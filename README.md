@@ -14,9 +14,9 @@
 
 ## 技術スタック
 
-- **LLM**: Ollama + Phi3
+- **LLM**: LM Studio + Phi-3.5-mini-instruct (または Ollama + Phi3)
 - **Vector Database**: FAISS
-- **Embedding Model**: nomic-embed-text
+- **Embedding Model**: nomic-embed-text (via Ollama)
 - **Language**: Python 3.11+
 - **Notebook**: Jupyter
 
@@ -24,6 +24,13 @@
 
 ### 1. 前提条件
 
+**オプションA: LM Studio使用（推奨）**
+- Python 3.11以上
+- [LM Studio](https://lmstudio.ai/) がインストール済み
+- Ollama がインストール済み（エンベディング用: [インストール方法](https://ollama.ai)）
+- 外付けSSDに保存されたモデルを使用可能
+
+**オプションB: Ollama使用**
 - Python 3.11以上
 - Ollama がインストール済み ([インストール方法](https://ollama.ai))
 - Ollamaが起動していること
@@ -41,8 +48,11 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 # 依存関係のインストール
 pip install -r requirements.txt
 
-# Phi3モデルのダウンロード
-ollama pull phi3
+# エンベディングモデルのダウンロード（Ollama経由）
+ollama pull nomic-embed-text
+
+# オプションB（Ollama使用）の場合のみ：
+# ollama pull phi3
 ```
 
 ### 3. データの準備
@@ -67,8 +77,24 @@ data/raw/japanese/
 
 ## 使い方
 
+### LM Studio のセットアップ（オプションA使用時）
+
+1. LM Studioを起動
+2. 外付けSSD上のモデルを読み込む:
+   - パス: `/Volumes/WD_BLACK SN7100 2TB Media/LMStudio/models/bartowski/Phi-3.5-mini-instruct-GGUF`
+3. 「Local Server」タブでサーバーを起動
+   - デフォルトURL: `http://localhost:1234`
+4. サーバーが起動していることを確認
+
 ### MVPバージョン（推奨開始点）
 
+**オプションA: LM Studio版（推奨）**
+```bash
+# Jupyter Notebookを起動
+jupyter notebook notebooks/01_mvp_rag_experiment_lmstudio.ipynb
+```
+
+**オプションB: Ollama版**
 ```bash
 # Jupyter Notebookを起動
 jupyter notebook notebooks/01_mvp_rag_experiment.ipynb
@@ -119,8 +145,18 @@ RagLab001/
 `.env`ファイルで以下をカスタマイズ可能:
 
 ```bash
-OLLAMA_MODEL_NAME=phi3           # 使用するLLMモデル
-EMBEDDING_MODEL_NAME=nomic-embed-text  # エンベディングモデル
+# LLMプロバイダーの選択
+LLM_PROVIDER=lmstudio            # Options: lmstudio, ollama
+
+# LM Studio設定
+LMSTUDIO_BASE_URL=http://localhost:1234/v1
+LMSTUDIO_MODEL_NAME=Phi-3.5-mini-instruct
+LMSTUDIO_MODEL_PATH=/Volumes/WD_BLACK SN7100 2TB Media/LMStudio/models/bartowski/Phi-3.5-mini-instruct-GGUF
+
+# Ollama設定（エンベディング用）
+EMBEDDING_MODEL_NAME=nomic-embed-text
+
+# チャンク設定
 CHUNK_SIZE=500                   # チャンクサイズ（文字数）
 CHUNK_OVERLAP=50                 # オーバーラップ
 TOP_K_RESULTS=3                  # 検索結果数
@@ -177,7 +213,20 @@ MVPが成功したら、以下の拡張を検討:
 
 ## トラブルシューティング
 
-### Ollamaに接続できない
+### LM Studioに接続できない
+
+1. LM Studioが起動しているか確認
+2. 「Local Server」タブでサーバーが起動しているか確認
+3. ブラウザで `http://localhost:1234/v1/models` にアクセスして、APIが応答するか確認
+4. `.env`ファイルの `LMSTUDIO_BASE_URL` が正しいか確認
+
+### 外付けSSD上のモデルが見つからない
+
+1. 外付けSSDがマウントされているか確認
+2. LM Studioの設定で、モデルパスが正しく設定されているか確認
+3. LM Studioでモデルを手動で読み込む
+
+### Ollamaに接続できない（エンベディング用）
 
 ```bash
 # Ollamaが起動しているか確認
@@ -193,6 +242,12 @@ ollama serve
 # nomic-embed-textモデルをダウンロード
 ollama pull nomic-embed-text
 ```
+
+### メモリ不足エラー
+
+- LM Studioで量子化されたモデル（Q4, Q5など）を使用
+- チャンクサイズを小さくする（例: 300文字）
+- バッチサイズを減らす
 
 ### 日本語フォントが表示されない（可視化）
 
