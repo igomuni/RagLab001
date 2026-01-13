@@ -1,0 +1,47 @@
+{
+  "experiment_id": "exp_003",
+  "name": "moe_ollama_phi3_nomic-v2-moe",
+  "description": "Ollama phi3とnomic-embed-text-v2-moe (MoE)を使用したRAG実験",
+  "created_at": null,
+  "llm": {
+    "provider": "ollama",
+    "model_name": "phi3",
+    "base_url": "http://localhost:11434",
+    "temperature": 0.7,
+    "max_tokens": 500
+  },
+  "embedding": {
+    "provider": "ollama",
+    "model_name": "nomic-embed-text",
+    "version": "v1.5",
+    "dimension": 768,
+    "base_url": "http://localhost:11434"
+  },
+  "data": {
+    "language": "japanese",
+    "source_files": [
+      "aozora_jp_001.txt",
+      "traditional_jp_002.txt",
+      "children_jp_003.txt"
+    ],
+    "total_chars": 6652
+  },
+  "chunking": {
+    "strategy": "paragraph",
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "total_chunks": 21
+  },
+  "retrieval": {
+    "vector_store": "faiss",
+    "index_type": "IndexFlatL2",
+    "top_k": 3
+  },
+  "notebook": "notebook.ipynb",
+  "results": {
+    "experiment_date": null,
+    "questions_tested": 5,
+    "avg_rag_response_length": null,
+    "avg_no_rag_response_length": null
+  }
+}
