@@ -48,6 +48,14 @@ data/vectors/**/*.json
 results/experiments/*.json
 results/comparisons/**/*.csv
 
+# New experiment structure
+experiments/**/vectors/*.faiss
+experiments/**/vectors/*.pkl
+experiments/**/vectors/*.json
+!experiments/**/config.json
+!experiments/**/README.md
+experiments/**/results/*.json
+
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb_checkpoints

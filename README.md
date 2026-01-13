@@ -141,6 +141,48 @@ jupyter notebook notebooks/01_mvp_rag_experiment_ollama.ipynb
 
 ## プロジェクト構造
 
+### 新構造 (2026年1月以降 - 推奨)
+
+実験単位で管理する構造に移行しました。各実験は完全に独立したディレクトリを持ち、設定・ベクトル・結果がすべて一箇所にまとまっています。
+
+```
+RagLab001/
+├── experiments/              # 実験単位で管理（推奨）
+│   ├── exp_001_baseline_ollama_phi3_nomic-v1/
+│   │   ├── config.json       # 実験設定（Git管理）
+│   │   ├── README.md         # 実験メモ（Git管理）
+│   │   ├── vectors/          # FAISSインデックス（Git除外）
+│   │   │   ├── index.faiss
+│   │   │   └── metadata.json
+│   │   └── results/          # 実験結果（Git除外）
+│   │       └── experiment_results_20260113_092450.json
+│   ├── exp_002_baseline_lmstudio_phi35_nomic-v1/
+│   │   └── （同様の構造）
+│   ├── exp_003_moe_ollama_phi3_nomic-v2-moe/    # 計画中
+│   ├── exp_004_moe_lmstudio_phi35_nomic-v2-moe/ # 計画中
+│   └── README.md             # 実験インデックス
+├── notebooks/
+│   ├── 01_mvp_rag_experiment_ollama.ipynb   # exp_001用
+│   └── 01_mvp_rag_experiment_lmstudio.ipynb # exp_002用
+├── docs/                 # ドキュメント
+│   └── 20260113_0930_MVP実験結果_OllamaとLMStudio比較.md
+├── data/
+│   ├── raw/japanese/         # 生テキスト（共通）
+│   └── vectors/              # 旧構造（後方互換性のため残存）
+├── results/
+│   └── comparisons/          # 旧構造（後方互換性のため残存）
+├── src/                  # ソースコード（将来の拡張用）
+├── config/               # 設定ファイル
+├── scripts/              # ユーティリティスクリプト
+├── requirements.txt      # Python依存関係
+├── .env                  # 環境変数
+└── README.md
+```
+
+詳細は [experiments/README.md](experiments/README.md) を参照してください。
+
+### 旧構造 (2026年1月まで - 後方互換性のため保持)
+
 ```
 RagLab001/
 ├── data/
@@ -149,23 +191,13 @@ RagLab001/
 │   └── vectors/          # FAISSインデックス（プロバイダー別）
 │       ├── ollama/       # Ollama用インデックス
 │       └── lmstudio/     # LM Studio用インデックス
-├── notebooks/
-│   ├── 01_mvp_rag_experiment.ipynb          # オリジナル版（汎用）
-│   ├── 01_mvp_rag_experiment_ollama.ipynb   # Ollama専用版
-│   └── 01_mvp_rag_experiment_lmstudio.ipynb # LM Studio専用版
 ├── results/
 │   └── comparisons/      # 実験結果（プロバイダー別）
 │       ├── ollama/       # Ollama実験結果JSON
 │       └── lmstudio/     # LM Studio実験結果JSON
-├── docs/                 # ドキュメント
-│   └── 20260113_0930_MVP実験結果_OllamaとLMStudio比較.md
-├── src/                  # ソースコード（将来の拡張用）
-├── config/               # 設定ファイル
-├── scripts/              # ユーティリティスクリプト
-├── requirements.txt      # Python依存関係
-├── .env                  # 環境変数
-└── README.md
 ```
+
+**注意**: 新しい実験は `experiments/` ディレクトリを使用してください。
 
 ## 設定
 
