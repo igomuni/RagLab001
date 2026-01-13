@@ -40,12 +40,13 @@ venv/
 # Data
 data/raw/**/*.txt
 data/raw/**/*.html
-data/vectors/*.faiss
-data/vectors/*.pkl
+data/vectors/**/*.faiss
+data/vectors/**/*.pkl
+data/vectors/**/*.json
 
 # Results
 results/experiments/*.json
-results/comparisons/*.csv
+results/comparisons/**/*.csv
 
 # Jupyter
 .ipynb_checkpoints/
