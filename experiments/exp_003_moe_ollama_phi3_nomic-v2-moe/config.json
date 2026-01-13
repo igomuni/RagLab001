@@ -12,8 +12,8 @@
   },
   "embedding": {
     "provider": "ollama",
-    "model_name": "nomic-embed-text",
-    "version": "v1.5",
+    "model_name": "nomic-embed-text-v2-moe",
+    "version": "v2",
     "dimension": 768,
     "base_url": "http://localhost:11434"
   },
