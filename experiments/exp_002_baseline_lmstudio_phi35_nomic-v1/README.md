@@ -1,64 +1,64 @@
-# Experiment 002: Baseline LM Studio + Phi-3.5 + Nomic v1
+# 実験002: ベースライン LM Studio + Phi-3.5 + Nomic v1
 
-**Date**: 2026-01-12
-**Status**: ✅ Completed
+**日付**: 2026-01-12
+**ステータス**: ✅ 完了
 
-## Configuration
+## 設定
 
-- **LLM**: LM Studio Phi-3.5-mini-instruct (stored on external SSD)
-- **Embedding**: nomic-embed-text v1 (768-dim, via Ollama)
-- **Chunking**: 500 chars, 50 overlap
-- **Data**: 3 Japanese Momotaro texts (21 chunks)
+- **LLM**: LM Studio Phi-3.5-mini-instruct（外部SSDに保存）
+- **埋め込み**: nomic-embed-text v1 (768次元、Ollama経由)
+- **チャンク**: 500文字、50オーバーラップ
+- **データ**: 日本語桃太郎テキスト3件 (21チャンク)
 
-## Purpose
+## 目的
 
-Baseline experiment using LM Studio with Phi-3.5 model to establish performance characteristics and compare against Ollama/Phi-3.
+LM StudioとPhi-3.5モデルを使用したベースライン実験で、パフォーマンス特性を確立し、Ollama/Phi-3と比較する。
 
-## Key Findings
+## 主要な発見事項
 
-- RAG average response: 200.4 chars
-- Non-RAG average response: 276.8 chars
-- RAG responses were accurate and detailed
-- Non-RAG responses showed hallucinations (created fictional character: "弥三石")
-- Phi-3.5 shows better instruction following compared to Phi-3
+- RAG平均応答長: 200.4文字
+- Non-RAG平均応答長: 276.8文字
+- RAG応答は正確で詳細
+- Non-RAG応答はハルシネーションを示す（架空のキャラクター作成: "弥三石"）
+- Phi-3.5はPhi-3と比較して指示追従性が向上
 
-## Performance Metrics
+## パフォーマンス指標
 
-| Metric | RAG | Non-RAG |
-|--------|-----|---------|
-| Avg Response Length | 200.4 chars | 276.8 chars |
-| Accuracy | High ✅ | Poor ❌ |
-| Hallucinations | None | Moderate |
-| Detail Level | Good | Excessive |
+| 指標 | RAG | Non-RAG |
+|------|-----|---------|
+| 平均応答長 | 200.4文字 | 276.8文字 |
+| 精度 | 高 ✅ | 低 ❌ |
+| ハルシネーション | なし | 中程度 |
+| 詳細度 | 良好 | 過剰 |
 
-## Comparison With
+## 比較対象
 
-- **exp_001**: Same embedding but Ollama + Phi-3 (more concise, less detailed)
-- **exp_004**: Same LLM but nomic-v2-moe embedding (planned - will test MoE embedding impact)
+- **exp_001**: 同じ埋め込みだがOllama + Phi-3（より簡潔、詳細度低）
+- **exp_004**: 同じLLMだがnomic-v2-moe埋め込み（計画中 - MoE埋め込みの影響をテスト予定）
 
-## Files
+## ファイル
 
-- **Notebook**: [notebooks/01_mvp_rag_experiment_lmstudio.ipynb](../../notebooks/01_mvp_rag_experiment_lmstudio.ipynb)
-- **Results**: [results/experiment_results_lmstudio_20260112_090749.json](results/experiment_results_lmstudio_20260112_090749.json)
-- **Comparative Report**: [docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md](../../docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md)
+- **ノートブック**: [notebook.ipynb](notebook.ipynb)
+- **結果**: [results/experiment_results_lmstudio_20260112_090749.json](results/experiment_results_lmstudio_20260112_090749.json)
+- **比較レポート**: [docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md](../../docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md)
 
-## Conclusions
+## 結論
 
-1. **RAG is essential**: Non-RAG mode produces hallucinations, though less severe than Phi-3
-2. **Phi-3.5 characteristics**:
-   - More detailed responses (avg 200 chars with RAG)
-   - Better context faithfulness
-   - Superior instruction following
-   - Somewhat verbose compared to Phi-3
-3. **Setup complexity**: Requires both LM Studio and Ollama (for embeddings)
+1. **RAGは必須**: Non-RAGモードはハルシネーションを生成するが、Phi-3ほど深刻ではない
+2. **Phi-3.5の特徴**:
+   - より詳細な応答（RAG使用時平均200文字）
+   - コンテキスト忠実性が向上
+   - 指示追従性が優れている
+   - Phi-3と比較してやや冗長
+3. **セットアップの複雑さ**: LM StudioとOllama（埋め込み用）の両方が必要
 
-## Model Advantages
+## モデルの利点
 
-- **Better for production**: Higher accuracy and detail
-- **Context handling**: Phi-3.5 shows improved ability to extract facts from context
-- **Consistency**: More reliable responses across different question types
+- **本番環境向け**: 高精度と詳細度
+- **コンテキスト処理**: Phi-3.5はコンテキストから事実を抽出する能力が向上
+- **一貫性**: 異なる質問タイプに対してより信頼性の高い応答
 
-## Next Steps
+## 次のステップ
 
-- Test with nomic-embed-text-v2-moe (exp_004) to compare embedding quality
-- Consider testing with different quantization levels for speed/quality trade-offs
+- nomic-embed-text-v2-moe（exp_004）でテストし、埋め込み品質を比較
+- 速度/品質のトレードオフのため、異なる量子化レベルでのテストを検討

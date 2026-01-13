@@ -1,55 +1,55 @@
-# Experiment 001: Baseline Ollama + Phi3 + Nomic v1
+# 実験001: ベースライン Ollama + Phi3 + Nomic v1
 
-**Date**: 2026-01-13
-**Status**: ✅ Completed
+**日付**: 2026-01-13
+**ステータス**: ✅ 完了
 
-## Configuration
+## 設定
 
 - **LLM**: Ollama phi3 (2.2GB)
-- **Embedding**: nomic-embed-text v1 (768-dim)
-- **Chunking**: 500 chars, 50 overlap
-- **Data**: 3 Japanese Momotaro texts (21 chunks)
+- **埋め込み**: nomic-embed-text v1 (768次元)
+- **チャンク**: 500文字、50オーバーラップ
+- **データ**: 日本語桃太郎テキスト3件 (21チャンク)
 
-## Purpose
+## 目的
 
-Baseline experiment to establish RAG vs Non-RAG performance with standard models.
+標準モデルでRAG有無のパフォーマンスを確立するベースライン実験。
 
-## Key Findings
+## 主要な発見事項
 
-- RAG average response: 140.4 chars
-- Non-RAG average response: 122.4 chars
-- RAG responses were accurate and grounded in source material
-- Non-RAG responses showed severe hallucinations (created fictional characters: "姉さん", "明")
+- RAG平均応答長: 140.4文字
+- Non-RAG平均応答長: 122.4文字
+- RAG応答は正確でソース資料に基づいている
+- Non-RAG応答は深刻なハルシネーションを示す（架空のキャラクター作成: "姉さん"、"明"）
 
-## Performance Metrics
+## パフォーマンス指標
 
-| Metric | RAG | Non-RAG |
-|--------|-----|---------|
-| Avg Response Length | 140.4 chars | 122.4 chars |
-| Accuracy | High ✅ | Poor ❌ |
-| Hallucinations | None | Severe |
+| 指標 | RAG | Non-RAG |
+|------|-----|---------|
+| 平均応答長 | 140.4文字 | 122.4文字 |
+| 精度 | 高 ✅ | 低 ❌ |
+| ハルシネーション | なし | 深刻 |
 
-## Comparison With
+## 比較対象
 
-- **exp_002**: Same config but LM Studio + Phi-3.5 (more detailed responses, better instruction following)
-- **exp_003**: Same LLM but nomic-v2-moe embedding (planned - will test MoE embedding impact)
+- **exp_002**: 同じ設定だがLM Studio + Phi-3.5（より詳細な応答、指示追従性が向上）
+- **exp_003**: 同じLLMだがnomic-v2-moe埋め込み（計画中 - MoE埋め込みの影響をテスト予定）
 
-## Files
+## ファイル
 
-- **Notebook**: [notebooks/01_mvp_rag_experiment_ollama.ipynb](../../notebooks/01_mvp_rag_experiment_ollama.ipynb)
-- **Results**: [results/experiment_results_20260113_092450.json](results/experiment_results_20260113_092450.json)
-- **Comparative Report**: [docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md](../../docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md)
+- **ノートブック**: [notebook.ipynb](notebook.ipynb)
+- **結果**: [results/experiment_results_20260113_092450.json](results/experiment_results_20260113_092450.json)
+- **比較レポート**: [docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md](../../docs/20260113_0930_MVP実験結果_OllamaとLMStudio比較.md)
 
-## Conclusions
+## 結論
 
-1. **RAG is essential**: Non-RAG mode is unusable due to severe hallucinations
-2. **Phi-3 characteristics**:
-   - Concise responses (avg 140 chars with RAG)
-   - Tends to over-interpret context occasionally
-   - Fast and lightweight
-3. **Setup simplicity**: Single tool (Ollama) makes this the easiest configuration
+1. **RAGは必須**: Non-RAGモードは深刻なハルシネーションのため使用不可
+2. **Phi-3の特徴**:
+   - 簡潔な応答（RAG使用時平均140文字）
+   - 時折コンテキストを過剰解釈する傾向
+   - 高速で軽量
+3. **セットアップの簡潔性**: 単一ツール（Ollama）により最も簡単な構成
 
-## Next Steps
+## 次のステップ
 
-- Test with nomic-embed-text-v2-moe (exp_003) to compare embedding quality
-- Consider trying larger LLM models (qwen2.5:7b) for comparison
+- nomic-embed-text-v2-moe（exp_003）でテストし、埋め込み品質を比較
+- より大きなLLMモデル（qwen2.5:7b）との比較を検討
